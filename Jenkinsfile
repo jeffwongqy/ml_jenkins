@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         // Update this path to your actual python.exe
-        PYTHON = "C:\\Program Files\\Python312\\python.exe"
+        PYTHON = "C:\\Program Files\\Python314\\python.exe"
     }
 
     stages {
