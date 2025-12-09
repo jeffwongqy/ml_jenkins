@@ -1,10 +1,24 @@
 pipeline {
     agent any
+
+    environment {
+        // Update this path to your actual python.exe
+        PYTHON = "C:\\Program Files\\Python312\\python.exe"
+    }
+
     stages {
-        stage('Test Python') {
+        stage('Test Python Environment') {
             steps {
-                bat "python --version"
-                bat "pip --version"
+                script {
+                    // Check Python version
+                    bat "\"${env.PYTHON}\" --version"
+
+                    // Check pip version
+                    bat "\"${env.PYTHON}\" -m pip --version"
+
+                    // Run a small Python command to verify execution
+                    bat "\"${env.PYTHON}\" -c \"print('Python environment is working!')\""
+                }
             }
         }
     }
