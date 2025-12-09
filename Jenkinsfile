@@ -2,24 +2,53 @@ pipeline {
     agent any
 
     environment {
-        // Update this path to your actual python.exe
         PYTHON = "C:\\Program Files\\Python314\\python.exe"
     }
 
     stages {
-        stage('Test Python Environment') {
+
+        stage('Initialize') {
             steps {
                 script {
-                    // Check Python version
-                    bat "\"${env.PYTHON}\" --version"
-
-                    // Check pip version
-                    bat "\"${env.PYTHON}\" -m pip --version"
-
-                    // Run a small Python command to verify execution
-                    bat "\"${env.PYTHON}\" -c \"print('Python environment is working!')\""
+                    // Upgrade pip and install necessary Python packages
+                    bat "\"${env.PYTHON}\" -m pip install --upgrade pip"
+                    bat "\"${env.PYTHON}\" -m pip install -r requirements.txt"
                 }
             }
+        }
+
+        stage('Load and Preprocess Data') {
+            steps {
+                script {
+                    // Run data loading script
+                    bat "\"${env.PYTHON}\" data_loading.py"
+                }
+            }
+        }
+
+        stage('Train Model') {
+            steps {
+                script {
+                    // Run model training script
+                    bat "\"${env.PYTHON}\" model_training.py"
+                }
+            }
+        }
+
+        stage('Evaluate Model') {
+            steps {
+                script {
+                    // Run model evaluation script
+                    bat "\"${env.PYTHON}\" model_evaluation.py"
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: '**/*.pkl', fingerprint: true
+            echo 'Pipeline execution complete.'
         }
     }
 }
