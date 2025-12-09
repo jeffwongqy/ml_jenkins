@@ -6,8 +6,7 @@ pipeline {
             steps {
                 script {
                     // Install necessary Python packages
-                    bat "python -m pip install --upgrade pip"
-                    bat "python -m pip install -r requirements.txt"
+                     bat "pip install -r requirements.txt"
                 }
             }
         }
